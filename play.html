@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Friendly Page</title>
+</head>
+
+<body>
+    <header>
+        <h1>Lingo log</h1>
+        <p id="p1">3 second</p>
+        <p id="p2" style="display: none;">6 second</p>
+        <p id="p3" style="display: none;">9 second</p>        
+    </header>
+    <main>
+        <h2>Play Audio</h2>
+        <p>Click the play button to play the audio.</p>
+        <button onclick="playAudio()">Play</button>
+        <button onclick="stopAudio()">Stop</button>
+    </main>
+
+    <footer>
+        <p>&copy; Lingo log</p>
+    </footer>
+
+</body>
+
+</html>
+
+<script>
+    let isPlaying = false;
+    let audio;
+    const audioFiles = ['sample-3s.mp3', 'sample-6s.mp3', 'sample-9s.mp3'];
+
+    function playAudio() {
+               
+        let index = 0;
+        isPlaying = true;
+
+        function playNextAudio() {
+            if (index < audioFiles.length) {
+                if (index > 0) {
+                    document.getElementById(`p${index}`).style.display = 'none'; // hide the previous <p> element
+                }
+                audio = new Audio(audioFiles[index]);
+                audio.play();
+                document.getElementById(`p${index+1}`).style.display = 'block'; // show the <p> element
+                index++;
+                audio.onended = playNextAudio;
+                console.log('Playing audio...', index);
+            }
+        }
+
+        playNextAudio();
+    }
+
+    function stopAudio() {
+
+        if (isPlaying === true) {
+            audio.pause();
+            isPlaying = false;
+        }
+    }
+
+</script>
